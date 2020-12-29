@@ -37,14 +37,14 @@ public class PersonTest {
     @Test
     public void testSetFirstName() {
         String expectedFirstName = "Lars";
-        testPerson.setFirstName(expectedFirstName);
+        testPerson.setFirstName("Lars");
         Assert.assertTrue(expectedFirstName.equalsIgnoreCase(testPerson.getFirstName()));
     }
 
     @Test
     public void testSetLastName() {
-        String expectedLastName ="olsson";
-        testPerson.setLastName(expectedLastName);
+        String expectedLastName ="Olsson";
+        testPerson.setLastName("Olsson");
         Assert.assertTrue(expectedLastName.equalsIgnoreCase(testPerson.getLastName()));
     }
 
