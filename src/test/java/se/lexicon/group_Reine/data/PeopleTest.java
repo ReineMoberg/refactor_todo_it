@@ -53,9 +53,6 @@ public class PeopleTest {
         testPeople.addPerson("Sven", "Andersson");
         testPeople.addPerson("Ove","Melkersson");
         Person foundPerson = testPeople.findById(searchId);
-        System.out.println(foundPerson.getPersonID());
-        System.out.println(foundPerson.getFirstName());
-        System.out.println(foundPerson.getLastName());
         Assert.assertTrue(foundPerson.getPersonID() == searchId && foundPerson.getFirstName().equalsIgnoreCase(expectedFirstName) && foundPerson.getLastName().equalsIgnoreCase(expectedLastName));
     }
 
@@ -77,9 +74,9 @@ public class PeopleTest {
         testPeople2[2] = new Person(3,"Ove","Melkersson");
         //testPeople2[2] = testPeople.findById(3);
         Person[] persons = testPeople.findAll();
-        Assert.assertTrue(testPeople2[0].getFirstName().equals(persons[0].getFirstName()));
-        Assert.assertTrue(testPeople2[1].getFirstName().equals(persons[1].getFirstName()));
-        Assert.assertTrue(testPeople2[2].getFirstName().equals(persons[2].getFirstName()));
+        Assert.assertTrue(testPeople2[0].getFirstName().equalsIgnoreCase(persons[0].getFirstName()));
+        Assert.assertTrue(testPeople2[1].getFirstName().equalsIgnoreCase(persons[1].getFirstName()));
+        Assert.assertTrue(testPeople2[2].getFirstName().equalsIgnoreCase(persons[2].getFirstName()));
         //System.out.println(testPeople.findById(1).getFirstName());
         //System.out.println(testPeople2[0].getFirstName());
         //System.out.println(testPeople.findById(2).getFirstName());
