@@ -97,4 +97,84 @@ public class TodoItemsTest {
         Assert.assertTrue(testTodoItems.size() == expectedSize);
     }
 
+    //add three todoitems and check search for items by done status.
+    //then set one item, with id, status to done (true) and check again
+    @Test
+    public void testFindByDoneStatus() {
+        Todo[] testItemsNotDone = new Todo[0];
+        Todo[] testItemsDone = new Todo[0];
+        PersonSequencer.reset();
+        TodoSequencer.reset();
+        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
+        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
+        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
+        testItemsNotDone = testTodoItems.findByDoneStatus(false);
+        testItemsDone = testTodoItems.findByDoneStatus(true);
+        Assert.assertTrue(testItemsNotDone.length == 3 && testItemsDone.length == 0);
+        testItemsNotDone = new Todo[0];
+        testItemsDone = new Todo[0];
+        testTodoItems.setItemDone(3);
+        testItemsNotDone = testTodoItems.findByDoneStatus(false);
+        testItemsDone = testTodoItems.findByDoneStatus(true);
+        Assert.assertTrue(testItemsNotDone.length == 2 && testItemsDone.length == 1);
+    }
+
+    //add four todoitems, where one person is assigned to two different todoitems.
+    //check that one person has two items, and another person has one item. done with an assignee.
+    //also, check first name of assignees
+    @Test
+    public void testFindByAssignee() {
+        Todo[] testItemsForAnId1 = new Todo[0];
+        Todo[] testItemsForAnId2 = new Todo[0];
+        String expectedFirstName1 = "Anna";
+        String expectedFirstName2 = "Linn";
+        PersonSequencer.reset();
+        TodoSequencer.reset();
+        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
+        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
+        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
+        testTodoItems.addTodo("Working", testPeople.findById(3));
+        testItemsForAnId1 = testTodoItems.findByAssignee(testPeople.findById(3));
+        testItemsForAnId2 = testTodoItems.findByAssignee(testPeople.findById(2));
+        Assert.assertTrue(testItemsForAnId1.length == 2 && testItemsForAnId2.length == 1);
+        Assert.assertTrue(testItemsForAnId1[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName1));
+        Assert.assertTrue(testItemsForAnId2[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName2));
+    }
+
+    //add four todoitems, where one person is assigned to two different todoitems.
+    //check that one person has two items, and another person has one item. done with a persons id.
+    //also, check first name of assignees
+    @Test
+    public void testFindByAssigneeId() {
+        Todo[] testItemsForAnId1 = new Todo[0];
+        Todo[] testItemsForAnId2 = new Todo[0];
+        String expectedFirstName1 = "Anna";
+        String expectedFirstName2 = "Arne";
+        PersonSequencer.reset();
+        TodoSequencer.reset();
+        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
+        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
+        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
+        testTodoItems.addTodo("Working", testPeople.findById(3));
+        testItemsForAnId1 = testTodoItems.findByAssignee(3);
+        testItemsForAnId2 = testTodoItems.findByAssignee(1);
+        Assert.assertTrue(testItemsForAnId1.length == 2 && testItemsForAnId2.length == 1);
+        Assert.assertTrue(testItemsForAnId1[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName1));
+        Assert.assertTrue(testItemsForAnId2[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName2));
+    }
+
+    //add three todoitems and check search unassigned items.
+    //ex. set two without assignee, and one with
+    @Test
+    public void testFindUnassignedTodoItems() {
+        Todo[] testNoAssignee = new Todo[0];
+        PersonSequencer.reset();
+        TodoSequencer.reset();
+        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
+        testTodoItems.addTodo("Fix the car");
+        testTodoItems.addTodo("Workout");
+        testNoAssignee = testTodoItems.findUnassignedTodoItems();
+        Assert.assertTrue(testNoAssignee.length == 2);
+    }
+
 }

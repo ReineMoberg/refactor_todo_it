@@ -4,6 +4,7 @@ import se.lexicon.group_Reine.model.Person;
 import se.lexicon.group_Reine.model.Todo;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TodoItems {
@@ -57,4 +58,68 @@ public class TodoItems {
     public void clear(){
         items = new Todo[0];
     }
+
+    //set a specific todoitem is done
+    public void setItemDone(int todoId) {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i].getTodoId() == todoId) {
+                items[i].setDone(true);
+                break;
+            }
+        }
+    }
+
+    //return all items that are ether done or not done
+    public Todo[] findByDoneStatus(boolean doneStatus) {
+        Todo[] itemsDoneOrNot = new Todo[0];
+        for (Todo todo : items) {
+            if (todo.isDone() == doneStatus) {
+                Todo[] tempArray = Arrays.copyOf(itemsDoneOrNot, itemsDoneOrNot.length + 1);
+                tempArray[tempArray.length - 1] = todo;
+                itemsDoneOrNot = tempArray;
+            }
+        }
+        return itemsDoneOrNot;
+    }
+
+    //return all items that are assigned to a certain person ID
+    public Todo[] findByAssignee(int personId) {
+        Todo[] assigneeItems = new Todo[0];
+        for (Todo todo : items) {
+            if (todo.getAssignee().getPersonID() == personId) {
+                Todo[] tempArray = Arrays.copyOf(assigneeItems, assigneeItems.length + 1);
+                tempArray[tempArray.length - 1] = todo;
+                assigneeItems = tempArray;
+            }
+        }
+        return assigneeItems;
+    }
+
+    //return all items that are assigned to a certain assignee
+    public Todo[] findByAssignee(Person assignee){
+        Todo[] assigneeItems = new Todo[0];
+        for (Todo todo : items) {
+            if (todo.getAssignee().getPersonID() == assignee.getPersonID()) {
+                Todo[] tempArray = Arrays.copyOf(assigneeItems, assigneeItems.length + 1);
+                tempArray[tempArray.length - 1] = todo;
+                assigneeItems = tempArray;
+            }
+        }
+        return assigneeItems;
+    }
+
+    //return all items that does not have an assignee
+    public Todo[] findUnassignedTodoItems() {
+        Todo[] unassignedItems = new Todo[0];
+        for (Todo todo : items) {
+            if (todo.getAssignee() == null) {
+                Todo[] tempArray = Arrays.copyOf(unassignedItems, unassignedItems.length + 1);
+                tempArray[tempArray.length - 1] = todo;
+                unassignedItems = tempArray;
+            }
+        }
+        return unassignedItems;
+    }
+
+
 }
