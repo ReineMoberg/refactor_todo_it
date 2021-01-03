@@ -102,4 +102,25 @@ public class PeopleTest {
         Assert.assertTrue(testPeople.size() == expectedSize);
     }
 
+    //add three persons, two of them are also added to local person array.
+    //remove one person and check that number of persons (array size) are two.
+    //check that correct person, by id, was removed
+    @Test
+    public void testRemovePerson() {
+        int expectedSize = 2;
+        PersonSequencer.reset();
+        Person[] testPeople2 = new Person[2];
+        testPeople.addPerson("Reine", "Moberg");
+        testPeople2[0] = new Person(1,"Reine", "Moberg");
+        testPeople.addPerson("Ove","Melkersson");
+        //testPeople2[0] = new Person(2,"Ove","Melkersson");
+        testPeople.addPerson("Sven", "Andersson");
+        testPeople2[1] = new Person(3,"Sven", "Andersson");
+        testPeople.removePerson(2);
+        Person[] persons = testPeople.findAll();
+        Assert.assertTrue(persons.length == expectedSize && testPeople.size() == expectedSize);
+        Assert.assertTrue(testPeople2[0].getPersonID() == persons[0].getPersonID());
+        Assert.assertTrue(testPeople2[1].getPersonID() == persons[1].getPersonID());
+    }
+
 }

@@ -1,6 +1,7 @@
 package se.lexicon.group_Reine.data;
 
 import se.lexicon.group_Reine.model.Person;
+import se.lexicon.group_Reine.model.Todo;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class People {
         return persons;
     }
 
-    //return the person who has a certain ID
+    //return the person who has a certain id
     public Person findById(int personId) {
         Person foundPerson = new Person(personId);      //local variable with id parameter
         for (Person person : persons) {                 //search through person object array
@@ -31,7 +32,7 @@ public class People {
         return foundPerson;
     }
 
-    //add person to array with a new ID, then return the person that was added
+    //add person to array with a new id, then return the person that was added
     public Person addPerson(String firstName, String lastName) {
         Person personToAdd = new Person(PersonSequencer.nextPersonId(), firstName, lastName);
         Person[] newPersonArray = Arrays.copyOf(persons, persons.length + 1);
@@ -43,6 +44,27 @@ public class People {
     //clear all persons in array
     public void clear() {
         persons = new Person[0];
+    }
+
+    //remove person from persons array by id
+    public void removePerson(int personId) {
+        Person[] newPersonArray = new Person[persons.length - 1];
+        int findIndex = 0;
+        for (int i = 0; i < persons.length; i++) {
+            if (persons[i].getPersonID() == personId) {
+                findIndex = i;
+                break;
+            }
+        }
+        int newArrayIndex = 0;
+        for (int i = 0; i < persons.length; i++) {
+            if (i == findIndex) {
+                continue;
+            }
+            newPersonArray[newArrayIndex] = persons[i];
+            newArrayIndex++;
+        }
+        persons = newPersonArray;
     }
 
 }

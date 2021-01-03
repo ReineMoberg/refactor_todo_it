@@ -121,5 +121,26 @@ public class TodoItems {
         return unassignedItems;
     }
 
+    //remove todoitem from item array by id
+    public void removeTodo(int todoId) {
+        Todo[] newTodoArray = new Todo[items.length - 1];
+        int findIndex = 0;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i].getTodoId() == todoId) {
+                findIndex = i;
+                break;
+            }
+        }
+        int newArrayIndex = 0;
+        for (int i = 0; i < items.length; i++) {
+            if (i == findIndex) {
+                continue;
+            }
+            newTodoArray[newArrayIndex] = items[i];
+            newArrayIndex++;
+        }
+        items = newTodoArray;
+    }
+
 
 }

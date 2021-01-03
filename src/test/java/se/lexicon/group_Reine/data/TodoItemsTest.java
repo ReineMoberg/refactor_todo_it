@@ -177,4 +177,25 @@ public class TodoItemsTest {
         Assert.assertTrue(testNoAssignee.length == 2);
     }
 
+    //add three todoitems, two of them are also added to local item array.
+    //remove one item and check that number of items (array size) are two.
+    //check that correct todoitem, by id, was removed
+    @Test
+    public void testRemoveTodo() {
+        Todo[] testTodoItems2 = new Todo[2];
+        int expectedSize = 2;
+        PersonSequencer.reset();
+        TodoSequencer.reset();
+        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
+        testTodoItems2[0] = new Todo(1, "Paint the house");
+        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
+        //testTodoItems2[0] = new Todo(2,"Fix the car");
+        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
+        testTodoItems2[1] = new Todo(3, "Workout");
+        testTodoItems.removeTodo(2);
+        Todo[] todos = testTodoItems.findAll();
+        Assert.assertTrue(todos.length == expectedSize && testTodoItems.size() == expectedSize);
+        Assert.assertTrue(testTodoItems2[0].getTodoId() == todos[0].getTodoId());
+        Assert.assertTrue(testTodoItems2[1].getTodoId() == todos[1].getTodoId());
+    }
 }
