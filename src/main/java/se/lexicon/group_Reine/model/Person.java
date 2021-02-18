@@ -1,27 +1,33 @@
 package se.lexicon.group_Reine.model;
 
+import java.util.Objects;
+
 public class Person {
 
-    //object specific variables
-    private final int personID;     //can only be initialized once
+    private int personID;
     private String firstName;
     private String lastName;
 
-    //constructor 1
-    public Person(int personID) {
-        this.personID = personID;
+    public Person() {
     }
 
-    //constructor 2
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Person(int personID, String firstName, String lastName) {
         this.personID = personID;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    //setters ang getters
     public int getPersonID() {
         return personID;
+    }
+
+    public void setPersonID(int personID) {
+        this.personID = personID;
     }
 
     public String getFirstName() {
@@ -38,5 +44,27 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return personID == person.personID && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(personID, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personID=" + personID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }

@@ -6,16 +6,16 @@ import org.junit.Assert;
 import se.lexicon.group_Reine.model.Person;
 import se.lexicon.group_Reine.model.Todo;
 
-public class TodoItemsTest {
+public class TodoItemsImplTest {
 
-    private TodoItems testTodoItems;    //create object from TodoItems class
-    private People testPeople;          //create object from People class. is used in TodoItems object as assignee
+    /*private TodoItemsImpl testTodoItemsImpl;    //create object from TodoItems class
+    private PeopleImpl testPeopleImpl;          //create object from People class. is used in TodoItems object as assignee
 
     //initialize objects
     @Before
     public void setUp(){
-        testTodoItems = new TodoItems();
-        testPeople = new People();
+        testTodoItemsImpl = new TodoItemsImpl();
+        testPeopleImpl = new PeopleImpl();
     }
 
     //add two todoitems and check if both were added.
@@ -34,9 +34,9 @@ public class TodoItemsTest {
         Person expectedAssignee2 = new Person(expectedPersonId2,"Anna","Karlsson");
         PersonSequencer.reset();
         TodoSequencer.reset();
-        Todo testTodo1 = testTodoItems.addTodo("Paint the house",testPeople.addPerson("Arne","Andersson"));
+        Todo testTodo1 = testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne","Andersson"));
         Assert.assertTrue(testTodo1.getTodoId() == expectedId1 && testTodo1.isDone() == expectedDone1 && testTodo1.getDescription().equalsIgnoreCase(expectedDescription1) && testTodo1.getAssignee().getFirstName().equalsIgnoreCase(expectedAssignee1.getFirstName()));
-        Todo testTodo2 = testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
+        Todo testTodo2 = testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna", "Karlsson"));
         Assert.assertTrue(testTodo2.getTodoId() == expectedId2 && testTodo2.isDone() == expectedDone2 && testTodo2.getDescription().equalsIgnoreCase(expectedDescription2) && testTodo2.getAssignee().getFirstName().equalsIgnoreCase(expectedAssignee2.getFirstName()));
     }
 
@@ -44,9 +44,9 @@ public class TodoItemsTest {
     @Test
     public void testSize() {
         int expectedSize = 2;
-        testTodoItems.addTodo("Paint the house",testPeople.addPerson("Arne","Andersson"));
-        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
-        Assert.assertTrue(testTodoItems.size() == expectedSize);
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne","Andersson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna", "Karlsson"));
+        Assert.assertTrue(testTodoItemsImpl.size() == expectedSize);
     }
 
     //add three todoitems and check search for an item with a specific id
@@ -57,28 +57,28 @@ public class TodoItemsTest {
         String expectedFirstName = "Anna";
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house",testPeople.addPerson("Arne","Andersson"));
-        testTodoItems.addTodo("Fix the car",testPeople.addPerson("Linn","Stensson"));
-        testTodoItems.addTodo("Workout",testPeople.addPerson("Anna","Karlsson"));
-        Todo foundTodo = testTodoItems.findById(searchId);
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne","Andersson"));
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn","Stensson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna","Karlsson"));
+        Todo foundTodo = testTodoItemsImpl.findById(searchId);
         Assert.assertTrue(foundTodo.getTodoId() == searchId && foundTodo.getDescription().equalsIgnoreCase(expectedDescription) && foundTodo.getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName));
     }
 
-    /*add three todoitems, and same items to local array,
+    *//*add three todoitems, and same items to local array,
     to check if entire array of todoitems is returned and is correct.
-    only descriptions are checked.*/
+    only descriptions are checked.*//*
     @Test
     public void testFindAll() {
         Todo[] testTodoItems2 = new Todo[3];
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house",testPeople.addPerson("Arne","Andersson"));
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne","Andersson"));
         testTodoItems2[0] = new Todo(1,"Paint the house");
-        testTodoItems.addTodo("Fix the car",testPeople.addPerson("Linn","Stensson"));
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn","Stensson"));
         testTodoItems2[1] = new Todo(2,"Fix the car");
-        testTodoItems.addTodo("Workout",testPeople.addPerson("Anna","Karlsson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna","Karlsson"));
         testTodoItems2[2] = new Todo(3,"Workout");
-        Todo[] todos = testTodoItems.findAll();
+        Todo[] todos = testTodoItemsImpl.findAll();
         Assert.assertTrue(testTodoItems2[0].getDescription().equalsIgnoreCase(todos[0].getDescription()));
         Assert.assertTrue(testTodoItems2[1].getDescription().equalsIgnoreCase(todos[1].getDescription()));
         Assert.assertTrue(testTodoItems2[2].getDescription().equalsIgnoreCase(todos[2].getDescription()));
@@ -91,10 +91,10 @@ public class TodoItemsTest {
         int expectedSize = 0;
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Fix the car",testPeople.addPerson("Linn","Stensson"));
-        Assert.assertTrue(testTodoItems.size() != expectedSize);
-        testTodoItems.clear();
-        Assert.assertTrue(testTodoItems.size() == expectedSize);
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn","Stensson"));
+        Assert.assertTrue(testTodoItemsImpl.size() != expectedSize);
+        testTodoItemsImpl.clear();
+        Assert.assertTrue(testTodoItemsImpl.size() == expectedSize);
     }
 
     //add three todoitems and check search for items by done status.
@@ -105,17 +105,17 @@ public class TodoItemsTest {
         Todo[] testItemsDone = new Todo[0];
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
-        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
-        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
-        testItemsNotDone = testTodoItems.findByDoneStatus(false);
-        testItemsDone = testTodoItems.findByDoneStatus(true);
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne", "Andersson"));
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn", "Stensson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna", "Karlsson"));
+        testItemsNotDone = testTodoItemsImpl.findByDoneStatus(false);
+        testItemsDone = testTodoItemsImpl.findByDoneStatus(true);
         Assert.assertTrue(testItemsNotDone.length == 3 && testItemsDone.length == 0);
         testItemsNotDone = new Todo[0];
         testItemsDone = new Todo[0];
-        testTodoItems.setItemDone(3);
-        testItemsNotDone = testTodoItems.findByDoneStatus(false);
-        testItemsDone = testTodoItems.findByDoneStatus(true);
+        testTodoItemsImpl.setItemDone(3);
+        testItemsNotDone = testTodoItemsImpl.findByDoneStatus(false);
+        testItemsDone = testTodoItemsImpl.findByDoneStatus(true);
         Assert.assertTrue(testItemsNotDone.length == 2 && testItemsDone.length == 1);
     }
 
@@ -130,12 +130,12 @@ public class TodoItemsTest {
         String expectedFirstName2 = "Linn";
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
-        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
-        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
-        testTodoItems.addTodo("Working", testPeople.findById(3));
-        testItemsForAnId1 = testTodoItems.findByAssignee(testPeople.findById(3));
-        testItemsForAnId2 = testTodoItems.findByAssignee(testPeople.findById(2));
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne", "Andersson"));
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn", "Stensson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna", "Karlsson"));
+        testTodoItemsImpl.addTodo("Working", testPeopleImpl.findById(3));
+        testItemsForAnId1 = testTodoItemsImpl.findByAssignee(testPeopleImpl.findById(3));
+        testItemsForAnId2 = testTodoItemsImpl.findByAssignee(testPeopleImpl.findById(2));
         Assert.assertTrue(testItemsForAnId1.length == 2 && testItemsForAnId2.length == 1);
         Assert.assertTrue(testItemsForAnId1[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName1));
         Assert.assertTrue(testItemsForAnId2[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName2));
@@ -152,12 +152,12 @@ public class TodoItemsTest {
         String expectedFirstName2 = "Arne";
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
-        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
-        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
-        testTodoItems.addTodo("Working", testPeople.findById(3));
-        testItemsForAnId1 = testTodoItems.findByAssignee(3);
-        testItemsForAnId2 = testTodoItems.findByAssignee(1);
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne", "Andersson"));
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn", "Stensson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna", "Karlsson"));
+        testTodoItemsImpl.addTodo("Working", testPeopleImpl.findById(3));
+        testItemsForAnId1 = testTodoItemsImpl.findByAssignee(3);
+        testItemsForAnId2 = testTodoItemsImpl.findByAssignee(1);
         Assert.assertTrue(testItemsForAnId1.length == 2 && testItemsForAnId2.length == 1);
         Assert.assertTrue(testItemsForAnId1[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName1));
         Assert.assertTrue(testItemsForAnId2[0].getAssignee().getFirstName().equalsIgnoreCase(expectedFirstName2));
@@ -170,10 +170,10 @@ public class TodoItemsTest {
         Todo[] testNoAssignee = new Todo[0];
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
-        testTodoItems.addTodo("Fix the car");
-        testTodoItems.addTodo("Workout");
-        testNoAssignee = testTodoItems.findUnassignedTodoItems();
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne", "Andersson"));
+        testTodoItemsImpl.addTodo("Fix the car");
+        testTodoItemsImpl.addTodo("Workout");
+        testNoAssignee = testTodoItemsImpl.findUnassignedTodoItems();
         Assert.assertTrue(testNoAssignee.length == 2);
     }
 
@@ -186,16 +186,16 @@ public class TodoItemsTest {
         int expectedSize = 2;
         PersonSequencer.reset();
         TodoSequencer.reset();
-        testTodoItems.addTodo("Paint the house", testPeople.addPerson("Arne", "Andersson"));
+        testTodoItemsImpl.addTodo("Paint the house", testPeopleImpl.addPerson("Arne", "Andersson"));
         testTodoItems2[0] = new Todo(1, "Paint the house");
-        testTodoItems.addTodo("Fix the car", testPeople.addPerson("Linn", "Stensson"));
+        testTodoItemsImpl.addTodo("Fix the car", testPeopleImpl.addPerson("Linn", "Stensson"));
         //testTodoItems2[0] = new Todo(2,"Fix the car");
-        testTodoItems.addTodo("Workout", testPeople.addPerson("Anna", "Karlsson"));
+        testTodoItemsImpl.addTodo("Workout", testPeopleImpl.addPerson("Anna", "Karlsson"));
         testTodoItems2[1] = new Todo(3, "Workout");
-        testTodoItems.removeTodo(2);
-        Todo[] todos = testTodoItems.findAll();
-        Assert.assertTrue(todos.length == expectedSize && testTodoItems.size() == expectedSize);
+        testTodoItemsImpl.removeTodo(2);
+        Todo[] todos = testTodoItemsImpl.findAll();
+        Assert.assertTrue(todos.length == expectedSize && testTodoItemsImpl.size() == expectedSize);
         Assert.assertTrue(testTodoItems2[0].getTodoId() == todos[0].getTodoId());
         Assert.assertTrue(testTodoItems2[1].getTodoId() == todos[1].getTodoId());
-    }
+    }*/
 }

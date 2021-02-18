@@ -7,7 +7,7 @@ import org.junit.Assert;
 
 public class PersonTest {
 
-    private Person testPerson;      //create object from Person class
+    /*private Person testPerson;      //create object from Person class
 
     //initialize objects constructor
     @Before
@@ -46,6 +46,6 @@ public class PersonTest {
         String expectedLastName ="Olsson";
         testPerson.setLastName("Olsson");
         Assert.assertTrue(expectedLastName.equalsIgnoreCase(testPerson.getLastName()));
-    }
+    }*/
 
 }
