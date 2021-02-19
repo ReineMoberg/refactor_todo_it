@@ -31,9 +31,16 @@ public class App
         System.out.println(person2);*/
 
         //Test retrieve all from person table
-        People people = new PeopleImpl();
+        /*People people = new PeopleImpl();
         Collection<Person> personCollection = people.findAll();
-        personCollection.forEach(System.out::println);
+        personCollection.forEach(System.out::println);*/
+
+        //Test retrieve person by ID
+        People people = new PeopleImpl();
+        Person person1 = people.findById(1);
+        Person person2 = people.findById(2);
+        System.out.println(person1);
+        System.out.println(person2);
 
     }
 }

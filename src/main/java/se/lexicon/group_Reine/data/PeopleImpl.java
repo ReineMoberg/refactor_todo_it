@@ -64,9 +64,27 @@ public class PeopleImpl implements People{
         return personCollection;
     }
 
+    /*Find person information by id from database
+     * */
     @Override
     public Person findById(int id) {
-        return null;
+        String query = "select * from person where person_id = ?";
+        Person person = new Person();
+        try(
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query)
+        ) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                person.setPersonID(resultSet.getInt(1));
+                person.setFirstName(resultSet.getString(2));
+                person.setLastName(resultSet.getString(3));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return person;
     }
 
     @Override
