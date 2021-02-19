@@ -100,7 +100,7 @@ public class PeopleImpl implements People{
         Collection<Person> personCollection = new ArrayList<>();
         try (
                 PreparedStatement preparedStatement =
-                        MySqlConnection.getConnection().prepareStatement(query);
+                        MySqlConnection.getConnection().prepareStatement(query)
         ) {
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -123,7 +123,7 @@ public class PeopleImpl implements People{
     @Override
     public Person update(Person person) {
         String query = "update person set first_name = ?, last_name = ? where person_id = ?";
-        try(
+        try (
                 PreparedStatement preparedStatement =
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {
@@ -137,8 +137,26 @@ public class PeopleImpl implements People{
         return person;
     }
 
+    /*Update a person based on id
+     * */
     @Override
     public boolean deleteByiId(int id) {
-        return false;
+        boolean deleteSuccess = false;
+        int rowsAffected;
+        String query = "delete from person where person_id = ?";
+        try (
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query)
+        ) {
+            preparedStatement.setInt(1, id);
+            rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                deleteSuccess = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return deleteSuccess;
     }
+
 }

@@ -49,9 +49,13 @@ public class App
         personCollection.forEach(System.out::println);*/
 
         //Test update person
-        People people = new PeopleImpl();
+        /*People people = new PeopleImpl();
         Person person3 = people.update(new Person(3,"Reine", "Svensson"));
-        System.out.println(person3);
+        System.out.println(person3);*/
 
+        //Test delete person
+        People people = new PeopleImpl();
+        boolean result = people.deleteByiId(3);
+        System.out.println(result);
     }
 }
