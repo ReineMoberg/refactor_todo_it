@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class PeopleImpl implements People{
@@ -48,7 +49,7 @@ public class PeopleImpl implements People{
         String query = "select * from person";
         Collection<Person> personCollection = new ArrayList<>();
         try (
-                Statement statement = MySqlConnection.getConnection().createStatement();
+                Statement statement = MySqlConnection.getConnection().createStatement()
         ) {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -87,9 +88,34 @@ public class PeopleImpl implements People{
         return person;
     }
 
+    /*Find person information by name from database
+     * */
     @Override
     public Collection<Person> findByName(String name) {
-        return null;
+        String[] fullName = name.trim().split("\\s+");
+        String firstName = fullName[0];
+        String[] lastNames = Arrays.copyOfRange(fullName, 1, fullName.length);
+        String lastName = String.join(" ", lastNames);
+        String query = "select * from person where first_name = ? and last_name = ?";
+        Collection<Person> personCollection = new ArrayList<>();
+        try (
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                personCollection.add(new Person(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3)
+                ));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return personCollection;
     }
 
     @Override

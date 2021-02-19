@@ -36,11 +36,17 @@ public class App
         personCollection.forEach(System.out::println);*/
 
         //Test retrieve person by ID
-        People people = new PeopleImpl();
+        /*People people = new PeopleImpl();
         Person person1 = people.findById(1);
         Person person2 = people.findById(2);
         System.out.println(person1);
-        System.out.println(person2);
+        System.out.println(person2);*/
+
+        //Test retrieve person by name
+        People people = new PeopleImpl();
+        Person person3 = people.create(new Person("Reine", "Moberg"));
+        Collection<Person> personCollection = people.findByName("Reine Moberg");
+        personCollection.forEach(System.out::println);
 
     }
 }
