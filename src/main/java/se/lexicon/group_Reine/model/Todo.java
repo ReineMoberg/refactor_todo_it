@@ -28,7 +28,7 @@ public class Todo {
     public Todo(String title, String description, Date deadlineMySqlFormat, boolean done, int assigneeId) {
         this.title = title;
         this.description = description;
-        this.deadline = LocalDate.parse((CharSequence) deadlineMySqlFormat);
+        this.deadline = deadlineMySqlFormat.toLocalDate();
         this.done = done;
         this.assigneeId = assigneeId;
     }
@@ -46,18 +46,17 @@ public class Todo {
         this.todoId = todoId;
         this.title = title;
         this.description = description;
-        this.deadline = LocalDate.parse((CharSequence) deadlineMySqlFormat);
+        this.deadline = deadlineMySqlFormat.toLocalDate();
         this.done = done;
         this.assigneeId = assigneeId;
     }
 
     public void setDeadlineFromMySqlFormat(Date deadlineMySqlFormat) {
-        deadline = LocalDate.parse((CharSequence) deadlineMySqlFormat);
+        deadline = deadlineMySqlFormat.toLocalDate();
     }
 
     public Date getDeadlineToMySqlFormat(){
-        String mySqlDateFormat = deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return Date.valueOf(mySqlDateFormat);
+        return Date.valueOf(deadline);
     }
 
     public int getTodoId() {

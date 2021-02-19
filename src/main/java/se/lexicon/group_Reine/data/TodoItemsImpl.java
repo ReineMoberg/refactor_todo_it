@@ -6,6 +6,7 @@ import se.lexicon.group_Reine.model.Person;
 import se.lexicon.group_Reine.model.Todo;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class TodoItemsImpl implements TodoItems {
@@ -43,9 +44,30 @@ public class TodoItemsImpl implements TodoItems {
         return todo;
     }
 
+    /*Find all todo_item information from database
+     * */
     @Override
     public Collection<Todo> findAll() {
-        return null;
+        String query = "select * from todo_item";
+        Collection<Todo> todoCollection = new ArrayList<>();
+        try (
+                Statement statement = MySqlConnection.getConnection().createStatement()
+        ) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                todoCollection.add(new Todo(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4),
+                        resultSet.getBoolean(5),
+                        resultSet.getInt(6)
+                ));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return todoCollection;
     }
 
     @Override

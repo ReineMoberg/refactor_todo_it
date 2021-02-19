@@ -63,10 +63,16 @@ public class App
         System.out.println(result);*/
 
         //Test add item(s) to database
-        TodoItems todoItems = new TodoItemsImpl();
+        /*TodoItems todoItems = new TodoItemsImpl();
         Todo todo1 = todoItems.create(new Todo("Car", "Wash it", LocalDate.of(2021,3,1),false,1));
         Todo todo2 = todoItems.create(new Todo("Motorcycle", "Register it", LocalDate.of(2021,5,15),false,2));
         System.out.println(todo1);
-        System.out.println(todo2);
+        System.out.println(todo2);*/
+
+        //Test retrieve all from todo_item table
+        TodoItems todoItems = new TodoItemsImpl();
+        Collection<Todo> todoCollection = todoItems.findAll();
+        todoCollection.forEach(System.out::println);
+
     }
 }
