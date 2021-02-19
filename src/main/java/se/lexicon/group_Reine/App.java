@@ -9,6 +9,7 @@ import se.lexicon.group_Reine.model.Person;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
 
 public class App
 {
@@ -23,12 +24,16 @@ public class App
         }*/
 
         //Test add person(s) to database
-        People people = new PeopleImpl();
+        /*People people = new PeopleImpl();
         Person person1 = people.create(new Person("Reine", "Moberg"));
         Person person2 = people.create(new Person("Anna", "Karlsson"));
         System.out.println(person1);
-        System.out.println(person2);
+        System.out.println(person2);*/
 
+        //Test retrieve all from person table
+        People people = new PeopleImpl();
+        Collection<Person> personCollection = people.findAll();
+        personCollection.forEach(System.out::println);
 
     }
 }

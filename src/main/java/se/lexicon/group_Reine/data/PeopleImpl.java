@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class PeopleImpl implements People{
@@ -40,9 +41,27 @@ public class PeopleImpl implements People{
         return person;
     }
 
+    /*Find all person information from database
+     * */
     @Override
     public Collection<Person> findAll() {
-        return null;
+        String query = "select * from person";
+        Collection<Person> personCollection = new ArrayList<>();
+        try (
+                Statement statement = MySqlConnection.getConnection().createStatement();
+        ) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                personCollection.add(new Person(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3)
+                ));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return personCollection;
     }
 
     @Override
