@@ -43,10 +43,15 @@ public class App
         System.out.println(person2);*/
 
         //Test retrieve person by name
-        People people = new PeopleImpl();
+        /*People people = new PeopleImpl();
         Person person3 = people.create(new Person("Reine", "Moberg"));
         Collection<Person> personCollection = people.findByName("Reine Moberg");
-        personCollection.forEach(System.out::println);
+        personCollection.forEach(System.out::println);*/
+
+        //Test update person
+        People people = new PeopleImpl();
+        Person person3 = people.update(new Person(3,"Reine", "Svensson"));
+        System.out.println(person3);
 
     }
 }

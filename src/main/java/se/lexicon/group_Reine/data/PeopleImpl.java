@@ -118,9 +118,23 @@ public class PeopleImpl implements People{
         return personCollection;
     }
 
+    /*Update a person based on id. All columns except id
+     * */
     @Override
     public Person update(Person person) {
-        return null;
+        String query = "update person set first_name = ?, last_name = ? where person_id = ?";
+        try(
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query)
+        ) {
+            preparedStatement.setString(1, person.getFirstName());
+            preparedStatement.setString(2, person.getLastName());
+            preparedStatement.setInt(3, person.getPersonID());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return person;
     }
 
     @Override
