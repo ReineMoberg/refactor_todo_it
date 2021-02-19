@@ -3,12 +3,16 @@ package se.lexicon.group_Reine;
 
 import se.lexicon.group_Reine.data.People;
 import se.lexicon.group_Reine.data.PeopleImpl;
+import se.lexicon.group_Reine.data.TodoItems;
+import se.lexicon.group_Reine.data.TodoItemsImpl;
 import se.lexicon.group_Reine.data.database.MySqlConnection;
 import se.lexicon.group_Reine.model.Person;
+import se.lexicon.group_Reine.model.Todo;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.Collection;
 
 public class App
@@ -54,8 +58,15 @@ public class App
         System.out.println(person3);*/
 
         //Test delete person
-        People people = new PeopleImpl();
+        /*People people = new PeopleImpl();
         boolean result = people.deleteByiId(3);
-        System.out.println(result);
+        System.out.println(result);*/
+
+        //Test add item(s) to database
+        TodoItems todoItems = new TodoItemsImpl();
+        Todo todo1 = todoItems.create(new Todo("Car", "Wash it", LocalDate.of(2021,3,1),false,1));
+        Todo todo2 = todoItems.create(new Todo("Motorcycle", "Register it", LocalDate.of(2021,5,15),false,2));
+        System.out.println(todo1);
+        System.out.println(todo2);
     }
 }

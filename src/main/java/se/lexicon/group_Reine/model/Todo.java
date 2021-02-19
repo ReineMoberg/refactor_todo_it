@@ -1,6 +1,8 @@
 package se.lexicon.group_Reine.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Todo {
@@ -23,6 +25,14 @@ public class Todo {
         this.assigneeId = assigneeId;
     }
 
+    public Todo(String title, String description, Date deadlineMySqlFormat, boolean done, int assigneeId) {
+        this.title = title;
+        this.description = description;
+        this.deadline = LocalDate.parse((CharSequence) deadlineMySqlFormat);
+        this.done = done;
+        this.assigneeId = assigneeId;
+    }
+
     public Todo(int todoId, String title, String description, LocalDate deadline, boolean done, int assigneeId) {
         this.todoId = todoId;
         this.title = title;
@@ -30,6 +40,24 @@ public class Todo {
         this.deadline = deadline;
         this.done = done;
         this.assigneeId = assigneeId;
+    }
+
+    public Todo(int todoId, String title, String description, Date deadlineMySqlFormat, boolean done, int assigneeId) {
+        this.todoId = todoId;
+        this.title = title;
+        this.description = description;
+        this.deadline = LocalDate.parse((CharSequence) deadlineMySqlFormat);
+        this.done = done;
+        this.assigneeId = assigneeId;
+    }
+
+    public void setDeadlineFromMySqlFormat(Date deadlineMySqlFormat) {
+        deadline = LocalDate.parse((CharSequence) deadlineMySqlFormat);
+    }
+
+    public Date getDeadlineToMySqlFormat(){
+        String mySqlDateFormat = deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return Date.valueOf(mySqlDateFormat);
     }
 
     public int getTodoId() {
