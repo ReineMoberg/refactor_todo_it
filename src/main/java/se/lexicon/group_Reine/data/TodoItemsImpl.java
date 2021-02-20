@@ -27,7 +27,11 @@ public class TodoItemsImpl implements TodoItems {
             preparedStatement.setString(2, todo.getDescription());
             preparedStatement.setDate(3, todo.getDeadlineToMySqlFormat());
             preparedStatement.setBoolean(4, todo.isDone());
-            preparedStatement.setInt(5, todo.getAssigneeId());
+            if (todo.getAssigneeId() != 0) {
+                preparedStatement.setInt(5, todo.getAssigneeId());
+            } else {
+                preparedStatement.setNull(5, Types.INTEGER);
+            }
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 1) {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -180,9 +184,30 @@ public class TodoItemsImpl implements TodoItems {
         return todoCollection;
     }
 
+    /*Find todo_item information that are unassigned from database
+     * */
     @Override
     public Collection<Todo> findByUnassignedTodoItems() {
-        return null;
+        String query = "select * from todo_item where assignee_id is null";
+        Collection<Todo> todoCollection = new ArrayList<>();
+        try (
+                Statement statement = MySqlConnection.getConnection().createStatement()
+        ) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                todoCollection.add(new Todo(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4),
+                        resultSet.getBoolean(5),
+                        resultSet.getInt(6)
+                ));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return todoCollection;
     }
 
     @Override
