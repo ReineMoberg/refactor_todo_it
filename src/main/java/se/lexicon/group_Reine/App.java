@@ -107,12 +107,18 @@ public class App
         todoCollection2.forEach(System.out::println);*/
 
         //Test retrieve all unassigned todo_item information
-        TodoItems todoItems = new TodoItemsImpl();
+        /*TodoItems todoItems = new TodoItemsImpl();
         Todo todoTest = todoItems.create(new Todo("Test title", "Test description", LocalDate.of(2021,5,15),false,0));
         Todo todoTest2 = todoItems.create(new Todo("Test title 2", "Test description 2", LocalDate.of(2021,5,10),false,1));
         System.out.println(todoTest);
         System.out.println(todoTest2);
         Collection<Todo> todoCollection = todoItems.findByUnassignedTodoItems();
-        todoCollection.forEach(System.out::println);
+        todoCollection.forEach(System.out::println);*/
+
+        //Test update todo_item
+        TodoItems todoItems = new TodoItemsImpl();
+        Todo todoUpdate = todoItems.updateTodo(new Todo(6,"Updated title", "description",LocalDate.of(2022,2,25),false,0));
+        System.out.println(todoUpdate);
+
     }
 }

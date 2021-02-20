@@ -137,7 +137,7 @@ public class PeopleImpl implements People{
         return person;
     }
 
-    /*Update a person based on id
+    /*Delete a person based on id
      * */
     @Override
     public boolean deleteByiId(int id) {

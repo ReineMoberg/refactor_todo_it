@@ -210,9 +210,31 @@ public class TodoItemsImpl implements TodoItems {
         return todoCollection;
     }
 
+    /*Update a todo_item based on id. All columns except id
+     * */
     @Override
     public Todo updateTodo(Todo todo) {
-        return null;
+        String query = "update todo_item set title = ?, description = ?, deadline = ?, " +
+                "done = ?, assignee_id = ? where todo_id = ?";
+        try(
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query)
+        ) {
+            preparedStatement.setString(1, todo.getTitle());
+            preparedStatement.setString(2, todo.getDescription());
+            preparedStatement.setDate(3, todo.getDeadlineToMySqlFormat());
+            preparedStatement.setBoolean(4, todo.isDone());
+            if (todo.getAssigneeId() != 0) {
+                preparedStatement.setInt(5, todo.getAssigneeId());
+            } else {
+                preparedStatement.setNull(5, Types.INTEGER);
+            }
+            preparedStatement.setInt(6, todo.getTodoId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return todo;
     }
 
     @Override
