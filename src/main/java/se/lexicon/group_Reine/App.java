@@ -89,12 +89,21 @@ public class App
         todoCollection2.forEach(System.out::println);*/
 
         //Test retrieve todo_item by assignee ID
-        TodoItems todoItems = new TodoItemsImpl();
+        /*TodoItems todoItems = new TodoItemsImpl();
         Todo todo3 = todoItems.create(new Todo("Motorcycle", "Change tires", LocalDate.of(2021,6,1),false,2));
         Collection<Todo> todoCollection1 = todoItems.findByAssignee(1);
         Collection<Todo> todoCollection2 = todoItems.findByAssignee(2);
         todoCollection1.forEach(System.out::println);
-        todoCollection2.forEach(System.out::println);
+        todoCollection2.forEach(System.out::println);*/
 
+        //Test retrieve todo_item by assignee person
+        TodoItems todoItems = new TodoItemsImpl();
+        People people = new PeopleImpl();
+        Person person1 = people.findById(1);
+        Person person2 = people.findById(2);
+        Collection<Todo> todoCollection1 = todoItems.findByAssignee(person2);
+        Collection<Todo> todoCollection2 = todoItems.findByAssignee(person1);
+        todoCollection1.forEach(System.out::println);
+        todoCollection2.forEach(System.out::println);
     }
 }
