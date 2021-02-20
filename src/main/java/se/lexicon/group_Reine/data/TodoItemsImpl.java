@@ -237,8 +237,25 @@ public class TodoItemsImpl implements TodoItems {
         return todo;
     }
 
+    /*Delete a todo_item based on id.
+     * */
     @Override
     public boolean deleteById(int id) {
-        return false;
+        boolean deleteSuccess = false;
+        int rowsAffected;
+        String query = "delete from todo_item where todo_id = ?";
+        try (
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query)
+        ) {
+            preparedStatement.setInt(1, id);
+            rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                deleteSuccess = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return deleteSuccess;
     }
 }

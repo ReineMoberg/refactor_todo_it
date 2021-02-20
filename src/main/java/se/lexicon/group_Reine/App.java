@@ -116,9 +116,14 @@ public class App
         todoCollection.forEach(System.out::println);*/
 
         //Test update todo_item
-        TodoItems todoItems = new TodoItemsImpl();
+        /*TodoItems todoItems = new TodoItemsImpl();
         Todo todoUpdate = todoItems.updateTodo(new Todo(6,"Updated title", "description",LocalDate.of(2022,2,25),false,0));
-        System.out.println(todoUpdate);
+        System.out.println(todoUpdate);*/
+
+        //Test delete todo_item
+        TodoItems todoItems = new TodoItemsImpl();
+        boolean result = todoItems.deleteById(6);
+        System.out.println(result);
 
     }
 }
