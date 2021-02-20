@@ -70,9 +70,17 @@ public class App
         System.out.println(todo2);*/
 
         //Test retrieve all from todo_item table
-        TodoItems todoItems = new TodoItemsImpl();
+        /*TodoItems todoItems = new TodoItemsImpl();
         Collection<Todo> todoCollection = todoItems.findAll();
-        todoCollection.forEach(System.out::println);
+        todoCollection.forEach(System.out::println);*/
+
+        //Test retrieve todo_item by ID
+        TodoItems todoItems = new TodoItemsImpl();
+        Todo todo1 = todoItems.findById(1);
+        Todo todo2 = todoItems.findById(2);
+        System.out.println(todo1);
+        System.out.println(todo2);
+
 
     }
 }
