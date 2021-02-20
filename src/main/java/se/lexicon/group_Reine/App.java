@@ -82,12 +82,19 @@ public class App
         System.out.println(todo2);*/
 
         //Test retrieve todo_item by done status
-        TodoItems todoItems = new TodoItemsImpl();
+        /*TodoItems todoItems = new TodoItemsImpl();
         Collection<Todo> todoCollection1 = todoItems.findByDoneStatus(false);
         Collection<Todo> todoCollection2 = todoItems.findByDoneStatus(true);
         todoCollection1.forEach(System.out::println);
-        todoCollection2.forEach(System.out::println);
+        todoCollection2.forEach(System.out::println);*/
 
+        //Test retrieve todo_item by assignee ID
+        TodoItems todoItems = new TodoItemsImpl();
+        Todo todo3 = todoItems.create(new Todo("Motorcycle", "Change tires", LocalDate.of(2021,6,1),false,2));
+        Collection<Todo> todoCollection1 = todoItems.findByAssignee(1);
+        Collection<Todo> todoCollection2 = todoItems.findByAssignee(2);
+        todoCollection1.forEach(System.out::println);
+        todoCollection2.forEach(System.out::println);
 
     }
 }

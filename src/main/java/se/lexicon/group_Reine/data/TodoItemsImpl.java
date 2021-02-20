@@ -124,9 +124,32 @@ public class TodoItemsImpl implements TodoItems {
         return todoCollection;
     }
 
+    /*Find todo_item information by assignee ID from database
+     * */
     @Override
     public Collection<Todo> findByAssignee(int assigneeId) {
-        return null;
+        String query = "select * from todo_item where assignee_id = ?";
+        Collection<Todo> todoCollection = new ArrayList<>();
+        try (
+                PreparedStatement preparedStatement =
+                        MySqlConnection.getConnection().prepareStatement(query)
+        ) {
+            preparedStatement.setInt(1, assigneeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                todoCollection.add(new Todo(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4),
+                        resultSet.getBoolean(5),
+                        resultSet.getInt(6)
+                ));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return todoCollection;
     }
 
     @Override
