@@ -49,9 +49,9 @@ public class PeopleImpl implements People{
         String query = "select * from person";
         Collection<Person> personCollection = new ArrayList<>();
         try (
-                Statement statement = MySqlConnection.getConnection().createStatement()
+                Statement statement = MySqlConnection.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
         ) {
-            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 personCollection.add(new Person(
                         resultSet.getInt(1),
@@ -71,16 +71,19 @@ public class PeopleImpl implements People{
     public Person findById(int id) {
         String query = "select * from person where person_id = ?";
         Person person = new Person();
-        try(
+        try (
                 PreparedStatement preparedStatement =
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                person.setPersonID(resultSet.getInt(1));
-                person.setFirstName(resultSet.getString(2));
-                person.setLastName(resultSet.getString(3));
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                if (resultSet.next()) {
+                    person.setPersonID(resultSet.getInt(1));
+                    person.setFirstName(resultSet.getString(2));
+                    person.setLastName(resultSet.getString(3));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
