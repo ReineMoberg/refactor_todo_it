@@ -34,10 +34,13 @@ public class TodoItemsImpl implements TodoItems {
             }
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 1) {
-                ResultSet resultSet = preparedStatement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    retrievedId = resultSet.getInt(1);
-                    todo.setTodoId(retrievedId);
+                try (
+                        ResultSet resultSet = preparedStatement.getGeneratedKeys()
+                ) {
+                    if (resultSet.next()) {
+                        retrievedId = resultSet.getInt(1);
+                        todo.setTodoId(retrievedId);
+                    }
                 }
             } else {
                 System.out.println("No todo ID retrieved from database");
@@ -55,9 +58,9 @@ public class TodoItemsImpl implements TodoItems {
         String query = "select * from todo_item";
         Collection<Todo> todoCollection = new ArrayList<>();
         try (
-                Statement statement = MySqlConnection.getConnection().createStatement()
+                Statement statement = MySqlConnection.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(query)
         ) {
-            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 todoCollection.add(new Todo(
                         resultSet.getInt(1),
@@ -85,14 +88,17 @@ public class TodoItemsImpl implements TodoItems {
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                todo.setTodoId(resultSet.getInt(1));
-                todo.setTitle(resultSet.getString(2));
-                todo.setDescription(resultSet.getString(3));
-                todo.setDeadlineFromMySqlFormat(resultSet.getDate(4));
-                todo.setDone(resultSet.getBoolean(5));
-                todo.setAssigneeId(resultSet.getInt(6));
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                if (resultSet.next()) {
+                    todo.setTodoId(resultSet.getInt(1));
+                    todo.setTitle(resultSet.getString(2));
+                    todo.setDescription(resultSet.getString(3));
+                    todo.setDeadlineFromMySqlFormat(resultSet.getDate(4));
+                    todo.setDone(resultSet.getBoolean(5));
+                    todo.setAssigneeId(resultSet.getInt(6));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -111,16 +117,19 @@ public class TodoItemsImpl implements TodoItems {
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {
             preparedStatement.setBoolean(1, done);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                todoCollection.add(new Todo(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getDate(4),
-                        resultSet.getBoolean(5),
-                        resultSet.getInt(6)
-                ));
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                while (resultSet.next()) {
+                    todoCollection.add(new Todo(
+                            resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getDate(4),
+                            resultSet.getBoolean(5),
+                            resultSet.getInt(6)
+                    ));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -139,16 +148,19 @@ public class TodoItemsImpl implements TodoItems {
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {
             preparedStatement.setInt(1, assigneeId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                todoCollection.add(new Todo(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getDate(4),
-                        resultSet.getBoolean(5),
-                        resultSet.getInt(6)
-                ));
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                while (resultSet.next()) {
+                    todoCollection.add(new Todo(
+                            resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getDate(4),
+                            resultSet.getBoolean(5),
+                            resultSet.getInt(6)
+                    ));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -167,16 +179,19 @@ public class TodoItemsImpl implements TodoItems {
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {
             preparedStatement.setInt(1, assignee.getPersonID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                todoCollection.add(new Todo(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getDate(4),
-                        resultSet.getBoolean(5),
-                        resultSet.getInt(6)
-                ));
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                while (resultSet.next()) {
+                    todoCollection.add(new Todo(
+                            resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getDate(4),
+                            resultSet.getBoolean(5),
+                            resultSet.getInt(6)
+                    ));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -191,9 +206,9 @@ public class TodoItemsImpl implements TodoItems {
         String query = "select * from todo_item where assignee_id is null";
         Collection<Todo> todoCollection = new ArrayList<>();
         try (
-                Statement statement = MySqlConnection.getConnection().createStatement()
+                Statement statement = MySqlConnection.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(query)
         ) {
-            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 todoCollection.add(new Todo(
                         resultSet.getInt(1),
@@ -216,7 +231,7 @@ public class TodoItemsImpl implements TodoItems {
     public Todo updateTodo(Todo todo) {
         String query = "update todo_item set title = ?, description = ?, deadline = ?, " +
                 "done = ?, assignee_id = ? where todo_id = ?";
-        try(
+        try (
                 PreparedStatement preparedStatement =
                         MySqlConnection.getConnection().prepareStatement(query)
         ) {

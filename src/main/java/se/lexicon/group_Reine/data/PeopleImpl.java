@@ -28,10 +28,13 @@ public class PeopleImpl implements People{
             preparedStatement.setString(2, person.getLastName());
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 1) {
-                ResultSet resultSet = preparedStatement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    retrievedId = resultSet.getInt(1);
-                    person.setPersonID(retrievedId);
+                try (
+                        ResultSet resultSet = preparedStatement.getGeneratedKeys()
+                ) {
+                    if (resultSet.next()) {
+                        retrievedId = resultSet.getInt(1);
+                        person.setPersonID(retrievedId);
+                    }
                 }
             } else {
                 System.out.println("No person ID retrieved from database");
@@ -50,7 +53,7 @@ public class PeopleImpl implements People{
         Collection<Person> personCollection = new ArrayList<>();
         try (
                 Statement statement = MySqlConnection.getConnection().createStatement();
-                ResultSet resultSet = statement.executeQuery(query);
+                ResultSet resultSet = statement.executeQuery(query)
         ) {
             while (resultSet.next()) {
                 personCollection.add(new Person(
@@ -107,13 +110,16 @@ public class PeopleImpl implements People{
         ) {
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                personCollection.add(new Person(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3)
-                ));
+            try (
+                    ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                while (resultSet.next()) {
+                    personCollection.add(new Person(
+                            resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3)
+                    ));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
